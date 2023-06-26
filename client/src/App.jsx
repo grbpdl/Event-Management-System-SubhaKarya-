@@ -9,9 +9,11 @@ import Register from './components/Register.jsx';
 import Profile from './components/Profile.jsx';
 import Recovery from './components/Recovery.jsx';
 import Reset from './components/Reset.jsx';
-import Login from './components/Login.jsx';
 import PageNotFound from './components/PageNotFound.jsx';
 import Whoareyou from './components/Whoareyou.jsx';
+import Login_User from './components/Login_User.jsx';
+import Login_Admin from './components/Login_Admin.jsx';
+import Login_Service from './components/Login_Service.jsx';
 
 
 
@@ -42,10 +44,7 @@ const router = createBrowserRouter([
       path : '/reset',
       element : <Reset></Reset>
   },
-  {
-    path : '/login',
-    element : <Login></Login>
-},
+ 
   {
       path : '*',
       element : <PageNotFound></PageNotFound>
@@ -53,6 +52,18 @@ const router = createBrowserRouter([
   {
     path : '/whoareyou',
     element : <Whoareyou></Whoareyou>
+},
+{
+  path : '/loginadmin',
+  element : <Login_Admin></Login_Admin>
+},
+{
+  path : '/loginuser',
+  element : <Login_User></Login_User>
+},
+{
+  path : '/loginservice',
+  element : <Login_Service></Login_Service>
 },
 ])
  

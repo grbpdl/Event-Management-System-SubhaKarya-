@@ -24,7 +24,7 @@ export default function Whoareyou() {
         </Typography>
       </CardBody>
       <CardFooter className="pt-0 flex items-center justify-center">
-        <a href="#" className="inline-block">
+        <a href="/loginadmin" className="inline-block">
           <Button size="sm" variant="text" className="flex items-center gap-2 ">
             Login
             <ArrowLongRightIcon strokeWidth={2} className="w-4 h-4" />
@@ -40,7 +40,7 @@ export default function Whoareyou() {
         </Typography>
       </CardBody>
       <CardFooter className="pt-0 flex items-center justify-center">
-        <a href="#" className="inline-block">
+        <a href="/loginuser" className="inline-block">
           <Button size="sm" variant="text" className="flex items-center gap-2">
             Login/signup
             <ArrowLongRightIcon strokeWidth={2} className="w-4 h-4" />
@@ -56,7 +56,7 @@ export default function Whoareyou() {
         </Typography>
       </CardBody>
       <CardFooter className="pt-0 flex items-center justify-center">
-        <a href="#" className="inline-block">
+        <a href="/loginservice" className="inline-block">
           <Button size="sm" variant="text" className="flex items-center gap-2">
             Login/signup
             <ArrowLongRightIcon strokeWidth={2} className="w-4 h-4" />
