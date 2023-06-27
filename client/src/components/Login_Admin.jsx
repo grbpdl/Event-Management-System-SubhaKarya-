@@ -1,13 +1,15 @@
 import React from 'react'
 import { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
+import { loginValidation } from '../helper/validate';
 
 export default function Login_Admin() {
     const formik = useFormik({
         initialValues : {
-            username : ''
+            email: '',
+            password:''
         },
-    
+        validate:loginValidation,
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values => {
@@ -17,7 +19,9 @@ export default function Login_Admin() {
     return (
 
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-primary">
+        
             <div className="w-full p-6 m-auto lg:max-w-xl">
+            <Toaster  position='center' reverseOrder={false} className="bg-white"></Toaster>
                 <h1 className="text-3xl font-poppins text-center text-gradient ">
                    Admin Login
                 </h1>
@@ -29,7 +33,7 @@ export default function Login_Admin() {
                         >
                             Email
                         </label>
-                        <input {...formik.getFieldProps('username')} 
+                        <input {...formik.getFieldProps('email')} 
                             type="email"
                             className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
@@ -41,7 +45,7 @@ export default function Login_Admin() {
                         >
                             Password
                         </label>
-                        <input
+                        <input {...formik.getFieldProps('password')}
                             type="password"
                             className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
