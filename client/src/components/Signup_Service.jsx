@@ -1,8 +1,14 @@
-import React from 'react'
-import { Toaster } from 'react-hot-toast';
+import {useState} from 'react'
+import { Toaster,toast} from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { registerValidation } from '../helper/validate';
+
+import axios from '../api/axios';
+const REGISTER_SERVICE_URL = '/service/register';
+
 export default function Signup_Service() {
+
+    const [success, setSuccess] = useState(false);
     const formik = useFormik({
         initialValues : {
             username:'',
@@ -13,11 +19,38 @@ export default function Signup_Service() {
         validate:registerValidation,
         validateOnBlur: false,
         validateOnChange: false,
-        onSubmit : async values => {
-            console.log(values)
+        onSubmit: async values => {
+            
+
+            try {
+                const response = await axios.post(REGISTER_SERVICE_URL,
+                    JSON.stringify({ servicename:values.username,email:values.email,password:values.password }),
+                    {
+                        headers: { 'Content-Type': 'application/json' },
+                        withCredentials: true
+                    }
+                );
+                setSuccess(true);
+            } catch (err) {
+                
+                toast.error(err.response.data.msg)
+                
+                
+            }
+
         }
     })
   return (
+    <>
+    {
+    success ? (
+        <section>
+            <h1>Sucess now verify your mail and proceed to login!</h1>
+            <p>
+                <a href="/loginservice">Login</a>
+            </p>
+        </section>
+    ) : (
    
         <div className='bg-primary w-full'>
              <Toaster  position='center' reverseOrder={false} className="bg-white"></Toaster>
@@ -107,6 +140,8 @@ export default function Signup_Service() {
                 </div>
             </div>
         </div>
+    )}
+         </>
     );
 }
   

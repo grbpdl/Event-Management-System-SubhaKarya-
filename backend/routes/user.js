@@ -9,6 +9,7 @@ const router = express.Router();
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const verify = require('../middleware/verifyToken');
+// const { session } = require('passport');
 
 router.post('/register', async (req, res) => {
   try {
@@ -23,13 +24,14 @@ router.post('/register', async (req, res) => {
     if (userData && userData.verified== false)
       return res
         .status(400)
-        .json({msg:'verification email has been sent to your email'});
+        .json({msg:'verification email has been already sent to your email'});
 
     //hash password
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
 
    const user = await new User({
+      username:req.body.username,
       email: req.body.email,
       password: hashPassword,
     }).save();
@@ -39,8 +41,7 @@ router.post('/register', async (req, res) => {
       token: (await crypto).randomBytes(32).toString('hex'),
       expireIn:new Date().getTime()+ 300*1000
     }).save();
-    const message = `${process.env.BASE_URL}/user/verify/${user.id}/${token.token}`;
-    await sendEmail(user.email, 'Verify Email', message);
+    await sendEmail(user.email, `<a href='${process.env.BASE_URL}/user/verify/${user.id}/${token.token}'>verify here</a>`);
 
     res.status(200).json({msg:'An Email sent to your account please verify'});
   } catch (error) {
@@ -62,15 +63,19 @@ router.get('/verify/:id/:token', async (req, res) => {
       const currentTime= new Date().getTime()
       const diff=token.expireIn-currentTime
       if(diff<0){
-        res.status(400).json({msg:'link expired'})
+        res.status(400).json({msg:'link expired register again'})
+        await User.findByIdAndRemove(user._id);
+
       }
     }
 
-    await User.updateOne({ _id: user._id, verified: true });
+    await user.updateOne({ _id:user._id, verified:true });
     await Token.findByIdAndRemove(token._id);
-
-    res.status(200).json({msg:'email verified sucessfully'});
+    
+     res.status(200).json({msg:'email verified sucessfully'});
+    // res.redirect('http://localhost:5173/loginuser')
   } catch (error) {
+  
     res.status(400).json({msg:'An error occured'});
   }
 });
@@ -78,8 +83,8 @@ router.get('/verify/:id/:token', async (req, res) => {
 router.post('/login', async (req, res) => {
     //checking email exists
     const user = await User.findOne({ email: req.body.email });
-    console.log(user);
-    if (!user) return res.status(400).json({msg:'invalid email or password'});
+
+    if (!user) return res.status(400).json({msg:' doesnot exist please sign in'});
   
     //check verified user or not
     if (user && user.verified == false)
@@ -92,13 +97,13 @@ router.post('/login', async (req, res) => {
     //create and assign token
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   
-    res.cookie('token', token,{
-        maxAge: 1000 * 60 * 60 * 24* 7, // would expire after 1 week5
-        httpOnly: true, // The cookie only accessible by the web server
-        sameSite:'none',
-        secure:true
-    });
-    res.send(token);
+  //   res.cookie('token', token,{
+  //     maxAge: 1000 * 60 * 60 * 24* 7, // would expire after 1 week5
+  //     httpOnly: true, // The cookie only accessible by the web server
+  //     sameSite:'none',
+  //     secure:true
+  // });
+  res.send({token,role:user.role});
   });
   
   router.get('/home', verify, (req, res) => {

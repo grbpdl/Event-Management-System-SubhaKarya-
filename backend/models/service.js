@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const serviceSchema = new Schema({
+  servicename: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -13,6 +17,10 @@ const serviceSchema = new Schema({
   verified: {
     type: Boolean,
     default: false,
+  },
+  role: {
+    type: String,
+    default:'service',
   },
 });
 

@@ -16,6 +16,7 @@ import Signup_User from './components/Signup_User.jsx';
 import Login_Admin from './components/Login_Admin.jsx';
 import Login_Service from './components/Login_Service.jsx';
 import Signup_Service from './components/Signup_Service.jsx';
+import AdminDashboard from './components/AdminDashboard.jsx';
 
 
 
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
 {
   path : '/signupservice',
   element : <Signup_Service></Signup_Service>
+},
+{
+  path : '/admindashboard',
+  element : <AdminDashboard></AdminDashboard>
 },
 ])
  

@@ -1,16 +1,16 @@
 require('dotenv').config();
 const connection = require('./database/db');
-const passport = require('passport');
 const session = require('express-session');
 const express = require('express');
 const cors=require('cors')
+const corsOptions ={
+  origin:'http://localhost:5173', 
+  credentials:true             //access-control-allow-credentials:true
+}
+
 const cookieParser = require('cookie-parser');
 const app = express();
-app.use(cors({
-  origin: "http://127.0.0.1:5173",
-  credentials: true,
-  exposedHeaders: ["set-cookie"],
-}))
+app.use(cors(corsOptions));
 app.use(
   session({
     secret: 'secret',
@@ -19,8 +19,6 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

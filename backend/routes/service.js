@@ -23,24 +23,25 @@ router.post('/register', async (req, res) => {
     if (serviceData && serviceData.verified== false)
       return res
         .status(400)
-        .json({msg:'verification email has been sent to your email'});
+        .json({msg:'verification email has been  already sent to your email'});
 
     //hash password
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
 
    const service = await new Service({
+      servicename:req.body.servicename,
       email: req.body.email,
       password: hashPassword,
     }).save();
 
     let token = await new Token({
-      serviceId: service._id,
+      userId: service._id,
       token: (await crypto).randomBytes(32).toString('hex'),
       expireIn:new Date().getTime()+ 300*1000
     }).save();
-    const message = `${process.env.BASE_URL}/service/verify/${service.id}/${token.token}`;
-    await sendEmail(service.email, 'Verify Email', message);
+    
+    await sendEmail(service.email, `<a href='${process.env.BASE_URL}/service/verify/${service.id}/${token.token}'>verify here</a>`);
 
     res.status(200).json({msg:'An Email sent to your account please verify'});
   } catch (error) {
@@ -54,7 +55,7 @@ router.get('/verify/:id/:token', async (req, res) => {
     if (!service) return res.status(400).json({msg:'Invalid link'});
 
     const token = await Token.findOne({
-      serviceId: service._id,
+      userId: service._id,
       token: req.params.token,
     });
     if (!token) return res.status(400).json({msg:'Invalid link'});
@@ -63,10 +64,11 @@ router.get('/verify/:id/:token', async (req, res) => {
       const diff=token.expireIn-currentTime
       if(diff<0){
         res.status(400).json({msg:'link expired'})
+        await Service.findByIdAndRemove(service._id);
       }
     }
 
-    await Service.updateOne({ _id: service._id, verified: true });
+    await service.updateOne({ _id: service._id, verified: true });
     await Token.findByIdAndRemove(token._id);
 
     res.status(200).json({msg:'email verified sucessfully'});
@@ -78,8 +80,8 @@ router.get('/verify/:id/:token', async (req, res) => {
 router.post('/login', async (req, res) => {
     //checking email exists
     const service = await Service.findOne({ email: req.body.email });
-    console.log(service);
-    if (!service) return res.status(400).json({msg:'invalid email or password'});
+
+    if (!service) return res.status(400).json({msg:'does not exist please sign up'});
   
     //check verified service or not
     if (service && service.verified == false)
@@ -92,12 +94,12 @@ router.post('/login', async (req, res) => {
     //create and assign token
     const token = jwt.sign({ _id: service._id }, process.env.TOKEN_SECRET);
   
-    res.cookie('token', token,{
-        maxAge: 1000 * 60 * 60 * 24* 7, // would expire after 1 week5
-        httpOnly: true, // The cookie only accessible by the web server
-        sameSite:'none',
-        secure:true
-    });
+    // res.cookie('token', token,{
+    //     maxAge: 1000 * 60 * 60 * 24* 7, // would expire after 1 week5
+    //     httpOnly: true, // The cookie only accessible by the web server
+    //     sameSite:'none',
+    //     secure:true
+    // });
     res.send(token);
   });
   

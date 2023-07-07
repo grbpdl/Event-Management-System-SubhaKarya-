@@ -10,6 +10,16 @@ export async function registerValidation(values){
 
     return errors;
 }
+
+//**validate recovery form */
+export async function recoveryValidation(values){
+    const errors =passwordVerify({}, values);
+    
+    confirmPassword(errors,values);
+   
+
+    return errors;
+}
 /** validate login form */
 export async function loginValidation(values){
     const errors =emailVerify({}, values);
@@ -45,12 +55,13 @@ function passwordVerify(errors = {}, values){
 function usernameVerify(error = {}, values){
     if(!values.username){
         error.username = toast.error('Username Required...!');
-    }else if(values.username.includes(" ")){
+    }else if(values.username.length<4){
         error.username = toast.error('Invalid Username...!')
     }
 
     return error;
 }
+
 
 /** validate email */
 function emailVerify(error ={}, values){

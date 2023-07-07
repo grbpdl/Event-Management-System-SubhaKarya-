@@ -1,7 +1,10 @@
 import React from 'react'
-import { Toaster } from 'react-hot-toast';
+import { Toaster,toast } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { loginValidation } from '../helper/validate';
+
+import axios from '../api/axios';
+const LOGIN_SERVICE_URL = '/service/login';
 
 export default function Login_Service() {
     const formik = useFormik({
@@ -12,8 +15,30 @@ export default function Login_Service() {
         validate:loginValidation,
         validateOnBlur: false,
         validateOnChange: false,
-        onSubmit : async values => {
-            console.log(values)
+        onSubmit :  async values => {
+            try {
+                const response = await axios.post(LOGIN_SERVICE_URL,
+                    JSON.stringify({email:values.email,password:values.password }),
+                    {
+                        headers: { 'Content-Type': 'application/json' },
+                        withCredentials: true
+                    }
+                );
+
+
+                // console.log(JSON.stringify(response?.data));
+                toast.success("logged in")
+                //console.log(JSON.stringify(response));
+                // const message=response?.data?.msg;
+                // const accessToken = response?.data?.token;
+                // const roles = response?.data?.role;
+                // setAuth({ email, password, roles, accessToken });
+                // console.log(accessToken)
+               
+            } catch (err) {
+                
+                toast.error(err.response.data.msg)
+         }
         }
     })
   return (
