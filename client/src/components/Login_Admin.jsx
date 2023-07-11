@@ -1,4 +1,4 @@
-import React from 'react'
+import {useState} from 'react'
 import { Toaster,toast } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { loginValidation } from '../helper/validate';
@@ -6,6 +6,7 @@ import axios from 'axios';
 
 
 export default function Login_Admin() {
+    const [success, setSuccess] = useState(true);
     const formik = useFormik({
         initialValues : {
             email: '',
@@ -24,6 +25,7 @@ export default function Login_Admin() {
             {
                 
                 toast.success("logged in")
+                setSuccess(false)
                 
             }
             else
@@ -37,6 +39,10 @@ export default function Login_Admin() {
         }
     })
     return (
+        <>
+      {
+        
+      success ? (
 
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-primary">
         
@@ -80,6 +86,15 @@ export default function Login_Admin() {
             </div>
         
     </div>
+    ) : (
+        <>
+        <p>Admin Dashboard</p>
+        <button 
+        onClick={()=>{setSuccess(true)}}
+        >click</button>
+        </>
+        )}
+        </>
   )
 }
 

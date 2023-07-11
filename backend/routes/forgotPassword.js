@@ -11,8 +11,10 @@ const bcrypt = require('bcryptjs');
 
 router.post('/reset', async (req, res) => {
   try {
+    console.log(req.email)
     const user = await User.findOne({ email: req.body.email }) 
     const service = await Service.findOne({ email: req.body.email })
+
     if(!user && !service) return res.status(400).json({msg:'email doesnt exist'})
      
     const otpCode=Math.floor((Math.random()*10000)+1)
@@ -26,16 +28,17 @@ router.post('/reset', async (req, res) => {
     await sendEmail(user.email, `<p> your otp code is:${String(otpCode)}`);
     if(service)
     await sendEmail(service.email, `<p> your otp code is:${String(otpCode)}`);
-
     res.status(200).json({msg:'code has been sent to your email'});
   } catch (error) {
-    res.status(500).send({ msg: error.message });
+    res.status(500).send(error);
   }
 });
 
 router.post('/update', async (req, res) => {
     try {
-      const data = await otp.findOne({ email: req.body.email,code:req.body.code })
+      const data = await otp.findOne({code:req.body.code })
+       
+      console.log(data)
       if(!data) return res.status(400).json({msg:'invalid '})
   
       if (data){
@@ -45,9 +48,15 @@ router.post('/update', async (req, res) => {
           res.status(400).json({msg:'otp expired'})
         }
       }
+        
+        let email;
+        if(data){
+        email=data.email;
+        }
         //hash password
-        const user=await User.findOne({email:req.body.email}) 
-        const service=await Service.findOne({email:req.body.email}) 
+        const user=await User.findOne({email}) 
+
+        const service=await Service.findOne({email}) 
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(req.body.password, salt);
       if(user){
@@ -61,16 +70,8 @@ router.post('/update', async (req, res) => {
        res.status(200).json({msg:'password changed successfully'})
        const otpId=data._id
        await otp.findByIdAndRemove(otpId);
-       if(user)
-       {
-        res.redirect('http://localhost:5173/loginuser')
-       }
-       if(service)
-       {
-        res.redirect('http://localhost:5173/loginservice')
-       }
     } catch (error) {
-      res.status(400).send({ msg: error.message });
+      res.status(400).send({ msg: "error 400 occured"});
     }
   });
 

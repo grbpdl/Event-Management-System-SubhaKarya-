@@ -14,7 +14,6 @@ export async function registerValidation(values){
 //**validate recovery form */
 export async function recoveryValidation(values){
     const errors =passwordVerify({}, values);
-    
     confirmPassword(errors,values);
    
 
