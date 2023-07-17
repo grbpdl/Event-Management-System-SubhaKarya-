@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+import {useContext,useState} from 'react'
 import { Toaster,toast } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { loginValidation } from '../helper/validate';
@@ -9,7 +9,8 @@ const LOGIN_USER_URL = '/user/login';
 
 
 export default function Login_User() {
-    const {setAuth}=useContext(AuthContext);
+    const [success, setSuccess] = useState(true);
+    // const {setAuth}=useContext(AuthContext);
     const formik = useFormik({
         initialValues : {
             email: '',
@@ -31,11 +32,12 @@ export default function Login_User() {
 
                 console.log(JSON.stringify(response?.data));
                 toast.success("logged in")
+                setSuccess(false)
                 //console.log(JSON.stringify(response));
                 // const message=response?.data?.msg;
                 // const accessToken = response?.data?.token;
                 // const roles = response?.data?.role;
-                setAuth({ email, password, roles, accessToken });
+                // setAuth({ email, password, roles, accessToken });
                 // console.log(accessToken)
                
             } catch (err) {
@@ -45,6 +47,10 @@ export default function Login_User() {
         }
     })
   return (
+    <>
+    {
+      
+    success ? (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-primary">
         
     <div className="w-full p-6 m-auto bg-white   rounded-md shadow-md lg:max-w-xl">
@@ -101,5 +107,14 @@ export default function Login_User() {
     </div>
 
 </div>
+) : (
+    <>
+    <p>User Dashboard</p>
+    <button 
+    onClick={()=>{setSuccess(true)}}
+    >click</button>
+    </>
+    )}
+    </>
   )
 }

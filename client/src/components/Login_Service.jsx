@@ -1,4 +1,4 @@
-import React from 'react'
+import {useState} from 'react'
 import { Toaster,toast } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { loginValidation } from '../helper/validate';
@@ -7,6 +7,7 @@ import axios from '../api/axios';
 const LOGIN_SERVICE_URL = '/service/login';
 
 export default function Login_Service() {
+    const [success, setSuccess] = useState(true);
     const formik = useFormik({
         initialValues : {
             email: '',
@@ -28,6 +29,7 @@ export default function Login_Service() {
 
                 // console.log(JSON.stringify(response?.data));
                 toast.success("logged in")
+                setSuccess(false)
                 //console.log(JSON.stringify(response));
                 // const message=response?.data?.msg;
                 // const accessToken = response?.data?.token;
@@ -42,6 +44,10 @@ export default function Login_Service() {
         }
     })
   return (
+    <>
+    {
+      
+    success ? (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-primary">
         
     <div className="w-full p-6 m-auto bg-white   rounded-md shadow-md lg:max-w-xl">
@@ -98,5 +104,15 @@ export default function Login_Service() {
     </div>
 
 </div>
+) : (
+    <>
+    <p>Service Dashboard</p>
+    <button 
+    onClick={()=>{setSuccess(true)}}
+    >click</button>
+    </>
+    )}
+    </>
+
   )
 }
