@@ -17,6 +17,8 @@ import Login_Admin from './components/Login_Admin.jsx';
 import Login_Service from './components/Login_Service.jsx';
 import Signup_Service from './components/Signup_Service.jsx';
 import AdminDashboard from './components/AdminDashboard.jsx';
+import UserDashboard from './components/UserDashboard.jsx';
+import ServiceDashboard from './components/ServiceDashboard.jsx';
 
 
 
@@ -79,6 +81,14 @@ const router = createBrowserRouter([
 {
   path : '/admindashboard',
   element : <AdminDashboard></AdminDashboard>
+},
+{
+  path : '/userdashboard',
+  element : <UserDashboard></UserDashboard>
+},
+{
+  path : '/servicedashboard',
+  element : <ServiceDashboard></ServiceDashboard>
 },
 ])
  

@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { close, menu,sklogo } from "../assets";
+import { close, menu} from "../assets";
 import { navLinks } from "../constants";
 import Button from "./Button";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [active, setActive] = useState("Home");
   const [toggle, setToggle] = useState(false);
 
   return (
     <nav className="w-full flex py-6 justify-between items-center navbar">
-      <h1 className="font-poppins font-normal cursor-pointer text-[30px] text-white text-gradient">Subhakarya</h1>
+      <h1 className="font-poppins font-normal cursor-pointer text-[30px] text-white text-gradient">props.title</h1>
       {/* <img src={sklogo} alt="logo" className="w-[100px] h-[42px]" /> */}
 
       <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-        {navLinks.map((nav, index) => (
+        {props.navLinks.map((nav, index) => (
           <li
             key={nav.id}
             className={`font-poppins font-normal cursor-pointer text-[16px] ${

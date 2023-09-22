@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function AdminDashboard() {
+export default function UserDashboard() {
   return (
     <div>
-      AdminDashboard
+      UserDashbord
     </div>
   )
 }

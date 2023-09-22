@@ -2,10 +2,16 @@ import {useState} from 'react'
 import { Toaster,toast } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { loginValidation } from '../helper/validate';
+import useAuth from '../hooks/useAuth';
 import axios from 'axios';
+import AdminDashboard from './AdminDashboard';
+
 
 
 export default function Login_Admin() {
+
+    const {setAuth} =useAuth()
+
     const [success, setSuccess] = useState(true);
     const formik = useFormik({
         initialValues : {
@@ -88,10 +94,10 @@ export default function Login_Admin() {
     </div>
     ) : (
         <>
-        <p>Admin Dashboard</p>
+        <AdminDashboard/>
         <button 
         onClick={()=>{setSuccess(true)}}
-        >click</button>
+        >Logout</button>
         </>
         )}
         </>

@@ -1,8 +1,7 @@
-import {useContext,useState} from 'react'
+import {useState} from 'react'
 import { Toaster,toast } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { loginValidation } from '../helper/validate';
-import AuthContext from '../context/AuthProvider';
 import axios from '../api/axios';
 const LOGIN_USER_URL = '/user/login';
 
