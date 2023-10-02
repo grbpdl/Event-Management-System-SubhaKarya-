@@ -1,21 +1,28 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { close, menu} from "../assets";
-import { navLinks } from "../constants";
+import { close, menu } from "../assets";
+// import { navLinks } from "../constants";
 import Button from "./Button";
 
-const Navbar = (props) => {
+
+const Navbar = ({title,navLinks,buttontitle}) => {
+  
   const [active, setActive] = useState("Home");
   const [toggle, setToggle] = useState(false);
+ 
+  
 
   return (
+   
     <nav className="w-full flex py-6 justify-between items-center navbar">
-      <h1 className="font-poppins font-normal cursor-pointer text-[30px] text-white text-gradient">props.title</h1>
+      <h1 className="font-poppins font-normal cursor-pointer text-[30px] text-white text-gradient">{title}</h1>
       {/* <img src={sklogo} alt="logo" className="w-[100px] h-[42px]" /> */}
 
       <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-        {props.navLinks.map((nav, index) => (
+       
+       
+        {navLinks && navLinks.map((nav, index) => (
           <li
             key={nav.id}
             className={`font-poppins font-normal cursor-pointer text-[16px] ${
@@ -23,7 +30,7 @@ const Navbar = (props) => {
             } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
             onClick={() => setActive(nav.title)}
           >
-            <a href={`#${nav.id}`}>{nav.title}</a>
+            <a href={nav.id}>{nav.title}</a>
           </li>
         ))}
       </ul>
@@ -42,7 +49,7 @@ const Navbar = (props) => {
           } p-6 bg-black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}
         >
           <ul className="list-none flex justify-end items-start flex-1 flex-col">
-            {navLinks.map((nav, index) => (
+          {navLinks&& navLinks.map((nav, index) => (
               <li
                 key={nav.id}
                 className={`font-poppins font-medium cursor-pointer text-[16px] ${
@@ -57,8 +64,9 @@ const Navbar = (props) => {
 
         </div>
       </div>
+      
       <Link to="/whoareyou">
-      <Button title="login"/>
+      <Button title={buttontitle}/>
       </Link>
     </nav>
   );

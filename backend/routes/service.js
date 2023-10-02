@@ -10,6 +10,8 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const verify = require('../middleware/verifyToken');
 
+
+//register the service provider(user)
 router.post('/register', async (req, res) => {
   try {
     const serviceData = await Service.findOne({ email: req.body.email });
@@ -49,6 +51,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
+//verify email of serviceprovider
 router.get('/verify/:id/:token', async (req, res) => {
   try {
     const service = await Service.findOne({ _id: req.params.id });
@@ -77,6 +80,7 @@ router.get('/verify/:id/:token', async (req, res) => {
   }
 });
 
+//login the service provider
 router.post('/login', async (req, res) => {
     //checking email exists
     const service = await Service.findOne({ email: req.body.email });
@@ -101,10 +105,6 @@ router.post('/login', async (req, res) => {
     //     secure:true
     // });
     res.send(token);
-  });
-  
-  router.get('/home', verify, (req, res) => {
-    res.send(req.service);
   });
 
 module.exports = router;

@@ -1,21 +1,58 @@
-import { people01, people02, people03, facebook, instagram, linkedin, twitter, airbnb, binance, coinbase, dropbox, send, shield, star, venue, todolist, payments, camera  } from "../assets";
+import { people01, people02, people03, venue, todolist, payments, camera,instagram,twitter,facebook,linkedin  } from "../assets";
 
 export const navLinks = [
+  {
+    id: "#home",
+    title: "Home",
+  },
+  {
+    id: "#aboutus",
+    title: "About Us",
+  },
+  {
+    id: "#services",
+    title: "Services",
+  },
+  {
+    id: "#contactus",
+    title: "Contact us",
+  },
+];
+
+export const adminnavLinks = [
   {
     id: "home",
     title: "Home",
   },
   {
-    id: "aboutus",
-    title: "About Us",
+    id: "users",
+    title: "Users",
   },
   {
     id: "services",
     title: "Services",
   },
   {
-    id: "contactus",
-    title: "Contact us",
+    id: "reviewkyc",
+    title: "Review Kyc",
+  },
+];
+export const usernavLinks = [
+  {
+    id: "#home",
+    title: "Home",
+  },
+  {
+    id: "/products",
+    title: "Services",
+  },
+  {
+    id: "/verifykyc",
+    title: "Verify Kyc",
+  },
+  {
+    id: "/search",
+    title: "Find Services",
   },
 ];
 
@@ -185,21 +222,4 @@ export const socialMedia = [
   },
 ];
 
-export const clients = [
-  {
-    id: "client-1",
-    logo: airbnb,
-  },
-  {
-    id: "client-2",
-    logo: binance,
-  },
-  {
-    id: "client-3",
-    logo: coinbase,
-  },
-  {
-    id: "client-4",
-    logo: dropbox,
-  },
-];
+

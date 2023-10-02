@@ -9,6 +9,8 @@ const router = express.Router();
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 
+
+//reset the password
 router.post('/reset', async (req, res) => {
   try {
     console.log(req.email)
@@ -34,6 +36,7 @@ router.post('/reset', async (req, res) => {
   }
 });
 
+//update the password
 router.post('/update', async (req, res) => {
     try {
       const data = await otp.findOne({code:req.body.code })

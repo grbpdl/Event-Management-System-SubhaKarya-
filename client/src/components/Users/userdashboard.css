@@ -1,0 +1,133 @@
+
+  
+  .banner {
+    height: 100vmin;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  .banner > h1 {
+    margin: 2vmax;
+  
+    font: 600 2.5vmax "poppins";
+  }
+  
+  .banner > p {
+    font: 800 1.4vmax "semi-bold";
+  }
+  
+ 
+  .banner::after {
+    content: "";
+    width: 100vw;
+    height: 100vmin;
+  background: rgba(255, 255, 255, 0.6);
+  filter: blur(750px);
+    position: absolute;
+    top: 0%;
+    left: 0;
+    clip-path: polygon(100% 68%, 0 100%, 100% 100%);
+    max-width: 100%;
+  }
+  
+  
+  .homeHeading {
+    text-align: center;
+    font-family: poppins;
+    font-size: 1.4vmax;
+    border-bottom: 1px solid rgba(1, 1, 1, 0.5);
+    width: 20vmax;
+    padding: 1vmax;
+    margin: 5vmax auto;
+    color: rgb(1, 1, 1, 0.7);
+  }
+  
+  .container {
+    display: flex;
+    margin: 2vmax auto;
+    width: 80vw;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+  }
+  
+  .productCard {
+    width: 20vmax;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: white;
+    margin: 2vmax;
+    transition: all 0.5s;
+    padding-bottom: 0.5vmax;
+    border-style: solid;
+    border-color: white;
+    border-width: 0.5px;
+  }
+  
+  .productCard > img {
+    width: 14vmax;
+  }
+  
+  .productCard > div {
+    margin: 0.5vmax;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .productCardSpan {
+    margin: 0.5vmax;
+    font: 300 0.7vmax "poppins";
+  }
+  
+  .productCard > p {
+    font-family: "poppins";
+    font-size: 1.2vmax;
+    margin: 1vmax 0.5vmax;
+    margin-bottom: 0;
+  }
+  
+  .productCard > span {
+    margin: 0.5vmax;
+    color: tomato;
+    font-family: "poppins";
+    font-size: 0.75 vmax; 
+  }
+  
+  .productCard:hover {
+    box-shadow: 0 0 5px rgba(255,255,255, 0.26);
+  
+    transform: translateY(-1vmax);
+  }
+  .productCard > div > span {
+    margin: 0 0.1vmax;
+    font: 50 1vmax "poppins";
+    
+  }
+/*   
+  @media screen and (max-width: 600px) {
+    .productCard > p {
+      font-size: 1.7vmax;
+    }
+  
+    .productCard > div {
+      margin: 0vmax;
+      display: block;
+    }
+  
+    .productCard > span {
+      font-size: 1.5vmax;
+    }
+  
+    .productCard > div > span {
+      margin: 0 0.1vmax;
+      font: 100 0.1vmax "poppins";
+      text-color:white;
+    }
+  } */
+  

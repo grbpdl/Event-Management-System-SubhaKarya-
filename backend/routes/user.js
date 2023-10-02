@@ -9,8 +9,12 @@ const router = express.Router();
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const verify = require('../middleware/verifyToken');
+const { logout } = require('../controllers/userController');
+
 // const { session } = require('passport');
 
+
+//register user
 router.post('/register', async (req, res) => {
   try {
     const serviceData = await Service.findOne({ email: req.body.email });
@@ -35,7 +39,7 @@ router.post('/register', async (req, res) => {
       email: req.body.email,
       password: hashPassword,
     }).save();
-
+    
     let token = await new Token({
       userId: user._id,
       token: (await crypto).randomBytes(32).toString('hex'),
@@ -49,6 +53,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
+//verify user email
 router.get('/verify/:id/:token', async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
@@ -71,15 +76,15 @@ router.get('/verify/:id/:token', async (req, res) => {
 
     await user.updateOne({ _id:user._id, verified:true });
     await Token.findByIdAndRemove(token._id);
-    
-     res.status(200).json({msg:'email verified sucessfully'});
-    // res.redirect('http://localhost:5173/loginuser')
+    link='http://localhost:5173/loginuser'
+     res.status(200).json({msg:`email verified sucessfully go to login:${link}`});
   } catch (error) {
   
     res.status(400).json({msg:'An error occured'});
   }
 });
 
+//login the user
 router.post('/login', async (req, res) => {
     //checking email exists
     const user = await User.findOne({ email: req.body.email });
@@ -94,20 +99,26 @@ router.post('/login', async (req, res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).json({msg:'invalid email or password'});
   
-    //create and assign token
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  
-  //   res.cookie('token', token,{
-  //     maxAge: 1000 * 60 * 60 * 24* 7, // would expire after 1 week5
-  //     httpOnly: true, // The cookie only accessible by the web server
-  //     sameSite:'none',
-  //     secure:true
-  // });
-  res.send({token,role:user.role});
+    //sending token
+    const token=jwt.sign({ id: user._id }, process.env.TOKEN_SECRET);
+  // options for cookie
+  const options = {
+    expires: new Date(
+      Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+
+  res.status(201).cookie("token", token, options).json({
+    success: true,
+    user,
+    token,
   });
-  
-  router.get('/home', verify, (req, res) => {
-    res.send(req.user);
   });
+
+//logout user
+
+router.route("/logout").get(logout);
+
 
 module.exports = router;

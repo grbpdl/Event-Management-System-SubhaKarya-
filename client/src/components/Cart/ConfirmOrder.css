@@ -1,0 +1,223 @@
+.confirmOrderPage {
+  height: 100vh;
+  background-color: black;
+  display: grid;
+  grid-template-columns: 6fr 3fr;
+  text-color:white;
+}
+.confirmOrderPage > div:last-child {
+  border-left: 1px solid rgba(255,255,255);
+}
+
+.confirmshippingArea {
+  padding: 5vmax;
+  padding-bottom: 0%;
+  
+}
+
+.confirmshippingArea > p {
+  font: 400 1.8vmax "poppins";
+  color:white;
+  
+}
+
+.confirmshippingAreaBox,
+.confirmCartItemsContainer {
+  margin: 2vmax;
+  color:white;
+}
+
+.confirmshippingAreaBox > div {
+  display: flex;
+  margin: 1vmax 0;
+ color:white;
+}
+
+.confirmshippingAreaBox > div > p {
+  font: 400 1vmax "poppins";
+  color:white;
+}
+.confirmshippingAreaBox > div > span {
+  margin: 0 1vmax;
+  font: 100 1vmax "poppins";
+  color:white;
+}
+
+.confirmCartItems > p {
+  font: 400 1.8vmax "poppins";
+}
+
+.confirmCartItems {
+  padding: 5vmax;
+  padding-top: 2vmax;
+  border-top: 1px solid white;
+}
+
+.confirmCartItemsContainer {
+  max-height: 20vmax;
+  overflow-y: auto;
+}
+
+.confirmCartItemsContainer > div {
+  display: flex;
+  font: 400 1vmax "poppins";
+  align-items: center;
+  justify-content: space-between;
+  margin: 2vmax 0;
+}
+
+.confirmCartItemsContainer > div > img {
+  width: 3vmax;
+}
+
+.confirmCartItemsContainer > div > a {
+  color:white;
+  margin: 0 2vmax;
+  width: 60%;
+  text-decoration: none;
+}
+
+.confirmCartItemsContainer > div > span {
+  font: 100 1vmax "poppins";
+  color:white;
+}
+
+.orderSummary {
+  padding: 7vmax;
+}
+
+.orderSummary > p {
+  text-align: center;
+  font: 400 1.8vmax "poppins";
+  border-bottom: 1px solid rgba(255,255,255);
+  padding: 1vmax;
+  width: 100%;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.orderSummary > div > div {
+  display: flex;
+  font: 300 1vmax "poppins";
+  justify-content: space-between;
+  margin: 2vmax 0;
+}
+.orderSummary > div > div > span {
+  color: rgba(255,255,255);
+}
+
+.orderSummaryTotal {
+  display: flex;
+  font: 300 1vmax "poppins";
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255);
+  padding: 2vmax 0;
+}
+
+.orderSummary > button {
+  background-color: tomato;
+  color: white;
+  width: 100%;
+  padding: 1vmax;
+  border: none;
+  margin: auto;
+  cursor: pointer;
+  transition: 0.5s;
+  font: 400 1vmax "poppins";
+}
+
+.orderSummary > button:hover {
+  background-color: rgb(192, 71, 50);
+}
+
+@media screen and (max-width: 600px) {
+  .confirmOrderPage {
+    grid-template-columns: 1fr;
+    height: unset;
+  }
+
+  .confirmOrderPage > div:last-child {
+    border-left: 0;
+    border-top: 1px solid rgba(255,255,255);
+  }
+
+  .confirmshippingArea > p {
+    font: 400 6vw "poppins";
+    text-color:white;
+  }
+
+  .confirmshippingAreaBox > div {
+    display: flex;
+    margin: 6vw 0;
+    text-color:white;
+  }
+
+  .confirmshippingAreaBox > div > p {
+    font: 400 4vw "poppins";
+    text-color:white;
+  }
+  .confirmshippingAreaBox > div > span {
+    font: 100 4vw "poppins";
+    text-color:white;
+  }
+
+  .confirmCartItems > p {
+    font: 400 6vw "poppins";
+    text-color:white;
+  }
+
+  .confirmCartItemsContainer {
+    max-height: 50vw;
+    text-color:white;
+  }
+
+  .confirmCartItemsContainer > div {
+    font: 400 4vw "poppins";
+    margin: 4vw 0;
+    text-color:white;
+  }
+
+  .confirmCartItemsContainer > div > img {
+    width: 10vw;
+  }
+
+  .confirmCartItemsContainer > div > a {
+    margin: 0;
+    width: 30%;
+    text-color:white;
+  }
+
+  .confirmCartItemsContainer > div > span {
+    font: 100 4vw "poppins";
+    text-color:white;
+  }
+
+  .orderSummary {
+    padding: 12vw;
+    text-color:white;
+  }
+
+  .orderSummary > p {
+    font: 400 6vw "poppins";
+    padding: 4vw;
+    text-color:white;
+  }
+
+  .orderSummary > div > div {
+    font: 300 4vw "poppins";
+    color:white;
+  }
+
+  .orderSummaryTotal {
+    font: 300 4vw "poppins";
+    padding: 5vw 0;
+    text-color:white;
+  }
+
+  .orderSummary > button {
+    padding: 4vw;
+    margin: 4vw auto;
+    font: 400 4vw "poppins";
+    text-color:white;
+  }
+}

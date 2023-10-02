@@ -8,6 +8,14 @@ import venue from "./venue.png";
 import todolist from "./todolist.png";
 import camera from "./camera.png";
 import payments from "./payments.png";
+import quotes from "./quotes.svg";
+import instagram from "./instagram.svg";
+import twitter from "./twitter.svg";
+import facebook from "./facebook.svg";
+import linkedin from "./linkedin.svg";
+import close from "./close.svg";
+import menu from "./menu.svg";
+
 export {
   venue,
   todolist,
@@ -18,4 +26,6 @@ export {
   people01,
   people02,
   people03,
+  quotes,
+  instagram,twitter,facebook,linkedin,close,menu,
 };
