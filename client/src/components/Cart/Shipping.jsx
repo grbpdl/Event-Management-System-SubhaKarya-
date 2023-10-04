@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState,useEffect } from "react";
 import "./Shipping.css";
 import { useSelector, useDispatch } from "react-redux";
 import { saveShippingInfo } from "../../actions/cartAction";
@@ -12,8 +12,10 @@ import { Country, State } from "country-state-city";
 import { useAlert } from "react-alert";
 import CheckoutSteps from "./CheckoutSteps";
 import { useNavigate } from 'react-router-dom';
+import store from "../../store";
+import { loadUser } from "../../actions/userAction";
 
-const Shipping = ({ history }) => {
+const Shipping = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -38,6 +40,11 @@ const Shipping = ({ history }) => {
     );
     navigate("/order/confirm");
   };
+  useEffect(() => {
+    
+      store.dispatch(loadUser());
+  
+    }, []);
 
   return (
     <Fragment>

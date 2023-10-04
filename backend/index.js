@@ -3,16 +3,19 @@ const connection = require('./database/db');
 const session = require('express-session');
 const express = require('express');
 const errorMiddleware=require("./middleware/error");
-const cors=require('cors')
+const cors=require('cors');
+const cloudinary=require("cloudinary");
 const corsOptions ={
   origin:['http://localhost:5173', 'http://localhost:5173/loginservice'],
   credentials:true             //access-control-allow-credentials:true
 }
 
-// const bodyParser=require("body-paser");
-// const fileUpload=require("express-fielupload")
+
+
 
 const cookieParser = require('cookie-parser');
+const bodyParser=require('body-parser');
+const fileUpload=require("express-fileupload")
 const app = express();
 app.use(cors(corsOptions));
 app.use(
@@ -22,19 +25,28 @@ app.use(
     saveUninitialized: false,
   })
 );
+cloudinary.config({ 
+  cloud_name: "dazmdsylh", 
+  api_key: "977257839637222", 
+  api_secret:"EP-ivwvMLGrFeHFjulIl-OHOf9g"
+});
 
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(errorMiddleware);
 
-// app.use(bodyParser.urlencoded({extended:true}));
-// app.use(fileUpload());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(fileUpload());
 
 
 
 const port = process.env.PORT;
 (async () => await connection())();
+
+//current user
+const currentUserRoute=require('./routes/currentUser');
+app.use('/currentUser',currentUserRoute);
 
 //user routes
 const user = require('./routes/user');
@@ -46,9 +58,6 @@ app.use('/user',user)
 const forgotPasswordRoute=require('./routes/forgotPassword')
 app.use('/forgot',forgotPasswordRoute)
 
-//service Provider routes
-const serviceRoute = require('./routes/service');
-app.use('/service',serviceRoute)
 
 
 //admin route

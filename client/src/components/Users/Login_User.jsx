@@ -1,15 +1,28 @@
-import {useState} from 'react'
+import {useState,useEffect,Fragment} from 'react'
 import { Toaster,toast } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { loginValidation } from '../../helper/validate';
 import axios from '../../api/axios';
 const LOGIN_USER_URL = '/user/login';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrors, login } from "../../actions/userAction";
+import { useAlert } from "react-alert";
+import Loader from "../layout/Loader/Loader";
 
 
 
 export default function Login_User() {
-    const [success, setSuccess] = useState(true);
-    // const {setAuth}=useContext(AuthContext);
+    const dispatch = useDispatch();
+  const alert = useAlert();
+  const navigate = useNavigate();
+
+  const { error, loading, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
+  const role = useSelector((state) => state.user.role);
+    
+    
     const formik = useFormik({
         initialValues : {
             email: '',
@@ -19,42 +32,70 @@ export default function Login_User() {
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit :  async values => {
-            try {
-                const response = await axios.post(LOGIN_USER_URL,
-                    JSON.stringify({email:values.email,password:values.password }),
-                    {
-                        headers: { 'Content-Type': 'application/json' },
-                        withCredentials: true
-                    }
-                );
+            dispatch(login(values.email, values.password));
+            
+        //     try {
+        //         const response = await axios.post(LOGIN_USER_URL,
+        //             JSON.stringify({email:values.email,password:values.password}),
+        //             {
+        //                 headers: { 'Content-Type': 'application/json' },
+        //                 withCredentials: true
+        //             }
+        //         );
 
 
-                console.log(JSON.stringify(response?.data));
-                toast.success("logged in")
-                setSuccess(false)
-                //console.log(JSON.stringify(response));
-                // const message=response?.data?.msg;
-                // const accessToken = response?.data?.token;
-                // const roles = response?.data?.role;
-                // setAuth({ email, password, roles, accessToken });
-                // console.log(accessToken)
-               
-            } catch (err) {
+        //         toast.success("logged in")
+        //         if(response?.data?.user?.role=="user")
+        //         navigate('/userdashboard')
+        //         if(response?.data?.user?.role=="service")
+        //         navigate('/servicedashboard')
+        //         if(response?.data?.user?.role=="admin")
+        //         navigate('/admindashboard')
                 
-                toast.error(err.response.data.msg)
-         }
+               
+        //     } catch (err) {
+                
+        //         toast.error(err.response.data.msg)
+        //  }
         }
     })
-  return (
-    <>
-    {
+    
+    useEffect(() => {
+        if (error) {
+          alert.error(error);
+          dispatch(clearErrors());
+        }
+        if (isAuthenticated) {
+            // Redirect based on the user's role
+        
+            if (role === 'user') {
+              navigate('/userdashboard');
+            } else if (role === 'service') {
+              navigate('/servicedashboard');
+            } else if (role === 'admin') {
+              navigate('/admindashboard');
+            }
+          }
+        }, [dispatch, error, alert,navigate, isAuthenticated, role]);
       
-    success ? (
+    
+        
+        
+      
+  return (
+    <Fragment>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+   
+      
+   
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden bg-primary">
         
     <div className="w-full p-6 m-auto bg-white   rounded-md shadow-md lg:max-w-xl">
     <Toaster  position='center' reverseOrder={false} className="bg-white"></Toaster>
-    <h1 className="font-poppins font-normal cursor-pointer text-[30px] text-white text-gradient">User Login</h1>
+    <h1 className="font-poppins font-normal cursor-pointer text-[30px] text-white text-gradient">Login</h1>
         <form className="mt-6 bg-white rounded-md shadow-md p-6 m-auto" onSubmit={formik.handleSubmit}>
             <div className="mb-2">
                 <label
@@ -106,14 +147,10 @@ export default function Login_User() {
     </div>
 
 </div>
-) : (
-    <>
-    <p>User Dashboard</p>
-    <button 
-    onClick={()=>{setSuccess(true)}}
-    >click</button>
-    </>
+
+    </Fragment>
     )}
-    </>
+  </Fragment>
+
   )
-}
+};

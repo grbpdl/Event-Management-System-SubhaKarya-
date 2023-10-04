@@ -11,8 +11,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
 import { getAllUsers, clearErrors, deleteUser } from "../../actions/userAction";
 import { DELETE_USER_RESET } from "../../constants/userConstants";
+import { useNavigate } from "react-router-dom";
 
-const UsersList = ({ history }) => {
+
+const UsersList = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const alert = useAlert();
@@ -42,12 +45,12 @@ const UsersList = ({ history }) => {
 
     if (isDeleted) {
       alert.success(message);
-      history.push("/admin/users");
+      navigate("/admin/users");
       dispatch({ type: DELETE_USER_RESET });
     }
 
     dispatch(getAllUsers());
-  }, [dispatch, alert, error, deleteError, history, isDeleted, message]);
+  }, [dispatch, alert, error, deleteError, navigate, isDeleted, message]);
 
   const columns = [
     { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
@@ -57,25 +60,6 @@ const UsersList = ({ history }) => {
       headerName: "Email",
       minWidth: 200,
       flex: 1,
-    },
-    {
-      field: "name",
-      headerName: "Name",
-      minWidth: 150,
-      flex: 0.5,
-    },
-
-    {
-      field: "role",
-      headerName: "Role",
-      type: "number",
-      minWidth: 150,
-      flex: 0.3,
-      cellClassName: (params) => {
-        return params.getValue(params.id, "role") === "admin"
-          ? "greenColor"
-          : "redColor";
-      },
     },
 
     {
@@ -88,13 +72,12 @@ const UsersList = ({ history }) => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/user/${params.getValue(params.id, "id")}`}>
-              <EditIcon />
-            </Link>
+            
 
             <Button
               onClick={() =>
-                deleteUserHandler(params.getValue(params.id, "id"))
+                
+                deleteUserHandler(params.row.id, "id")
               }
             >
               <DeleteIcon />

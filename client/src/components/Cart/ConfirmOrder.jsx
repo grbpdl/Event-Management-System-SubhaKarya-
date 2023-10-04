@@ -1,21 +1,28 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import CheckoutSteps from "./CheckoutSteps";
 import { useSelector } from "react-redux";
 import "./ConfirmOrder.css";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import { useNavigate } from 'react-router-dom';
-
+import store from "../../store";
+import { loadUser } from "../../actions/userAction";
 const ConfirmOrder = () => {
+  useEffect(() => {
+    
+    store.dispatch(loadUser());
+    
+
+  }, []);
   const navigate = useNavigate();
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-  // const { user } = useSelector((state) => state.user);//i dont have user yet
-
+  const { user } = useSelector((state) => state.user);
+ 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + 1 * item.price,
     0
   );
-
+const username=user?.username;
   const shippingCharges = subtotal > 1000 ? 0 : 200;
 
   const tax = subtotal * 0.18;
@@ -47,7 +54,7 @@ const ConfirmOrder = () => {
             <div className="confirmshippingAreaBox">
               <div>
                 <p>Name:</p>
-                 <span>username</span>{/*{user.name} */}
+                  <span>{username}</span>
               </div>
               <div>
                 <p>Phone:</p>

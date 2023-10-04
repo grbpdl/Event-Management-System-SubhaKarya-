@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Typography } from "@material-ui/core";
 import { useAlert } from "react-alert";
 import { useNavigate } from 'react-router-dom';
+import {qrcode} from '../../assets'
 // import {
 //   CardNumberElement,
 //   CardCvcElement,
@@ -12,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 //   useElements,
 // } from "@stripe/react-stripe-js";
 
-import axios from "axios";
+import axios from "../../api/axios";
 import "./payment.css";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import EventIcon from "@material-ui/icons/Event";
@@ -20,23 +21,23 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { createOrder, clearErrors } from "../../actions/orderAction";
 
 const Payment = () => {
-  /*const navigate = useNavigate();
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
-  const stripe = useStripe();
-  const elements = useElements();
+  
   const payBtn = useRef(null);
-
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
-  const { error } = useSelector((state) => state.newOrder);
+
+  
+
+
 
   const paymentData = {
     amount: Math.round(orderInfo.totalPrice * 100),
   };
-
+ 
   const order = {
     shippingInfo,
     orderItems: cartItems,
@@ -45,7 +46,39 @@ const Payment = () => {
     shippingPrice: orderInfo.shippingCharges,
     totalPrice: orderInfo.totalPrice,
   };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    payBtn.current.disabled = true;
 
+    try {
+      // const config = {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   usecredentials:true
+      // };
+      // const { data } = await axios.post(
+      //   "/payment/process",
+      //   paymentData,
+      //   config
+      // );
+    order.paymentInfo = {
+      id:"user",
+      status:"paid",
+    };
+
+    dispatch(createOrder(order));
+
+    navigate("/sucess");
+  }
+  catch (error) {
+    payBtn.current.disabled = false;
+    alert.error(error.response.data.message);
+  }
+};
+/*
+  const stripe = useStripe();
+  const elements = useElements();
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -118,28 +151,19 @@ const Payment = () => {
 
   return (
     <Fragment>
-      <MetaData title="Payment" />
       <CheckoutSteps activeStep={2} />
       <div className="paymentContainer">
         <form className="paymentForm" onSubmit={(e) => submitHandler(e)}>
-          <Typography>Card Info</Typography>
-          <div>
-            <CreditCardIcon />
-            {/* <CardNumberElement className="paymentInput" /> */}
-          </div>
-          <div>
-            <EventIcon />
-            {/* <CardExpiryElement className="paymentInput" /> */}
-          </div>
-          <div>
-            <VpnKeyIcon />
-            {/* <CardCvcElement className="paymentInput" /> */}
-          </div>
-
-          <input
+          <Typography className="text-white">Scan to Pay</Typography>
+          <img
+          src={qrcode}
+          alt="qr payment"
+          className="w-[300px] h-[300px] object-contain"
+        />
+                   <input
             type="submit"
-             value={`Pay`} //- Rs${orderInfo && orderInfo.totalPrice}
-            // ref={payBtn}
+             value={`Pay  Rs${orderInfo && orderInfo.totalPrice} via QR code`} //-
+            ref={payBtn}
             className="paymentFormBtn"
           />
         </form>

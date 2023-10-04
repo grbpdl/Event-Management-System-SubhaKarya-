@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./Products.css";
 import styles from "../../style.js";
+import Navbar from '../Navbar.jsx'
+import { usernavLinks } from '../../constants/index.js';
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, getProduct } from "../../actions/productAction";
 import Loader from "../layout/Loader/Loader";
@@ -22,7 +24,7 @@ const categories = [
 ];
 
 const Products = () => {
-  const { match }= useParams();
+  const { keyword }= useParams();
   const dispatch = useDispatch();
 
   const alert = useAlert();
@@ -42,7 +44,7 @@ const Products = () => {
     filteredProductsCount,
   } = useSelector((state) => state.products);
 
-  const keyword = match;
+  
 
   const setCurrentPageNo = (e) => {
     setCurrentPage(e);
@@ -68,8 +70,8 @@ const Products = () => {
         <Loader />
       ) : (
         <Fragment>
-           <div className="bg-primary w-full  overflow-hidden text-white">{/* used h-screen to make it fully black */}
-    
+           <div className="bg-primary w-full  overflow-scroll text-white">{/* used h-screen to make it fully black */}
+           <Navbar title="" navLinks={usernavLinks} buttontitle="Logout"/>
           <h2 className="productsHeading">Services</h2>
 
           <div className="products">

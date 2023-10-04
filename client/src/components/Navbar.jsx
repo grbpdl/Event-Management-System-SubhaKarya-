@@ -30,7 +30,7 @@ const Navbar = ({title,navLinks,buttontitle}) => {
             } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
             onClick={() => setActive(nav.title)}
           >
-            <a href={nav.id}>{nav.title}</a>
+             <Link to={nav.id}>{nav.title}</Link>
           </li>
         ))}
       </ul>
@@ -65,9 +65,8 @@ const Navbar = ({title,navLinks,buttontitle}) => {
         </div>
       </div>
       
-      <Link to="/whoareyou">
-      <Button title={buttontitle}/>
-      </Link>
+      
+      <Button title={buttontitle} />
     </nav>
   );
 };

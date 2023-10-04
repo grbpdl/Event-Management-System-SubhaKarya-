@@ -23,19 +23,21 @@ const CheckoutSteps = ({ activeStep }) => {
 
   const stepStyles = {
     boxSizing: "border-box",
+    
   
   };
 
   return (
-    <Fragment>
-      <Stepper className="bg-black" alternativeLabel activeStep={activeStep} style={stepStyles}>
+    <Fragment >
+      
+      <Stepper alternativeLabel activeStep={activeStep} style={stepStyles}>
         {steps.map((item, index) => (
-          <Step
+          <Step className="bg-black"
             key={index}
             active={activeStep === index ? true : false}
             completed={activeStep >= index ? true : false}
           >
-            <StepLabel
+            <StepLabel 
               style={{
                 color: activeStep >= index ? "tomato" : "rgba(255,255,255, 0.649)",
               }}
@@ -46,6 +48,7 @@ const CheckoutSteps = ({ activeStep }) => {
           </Step>
         ))}
       </Stepper>
+      
     </Fragment>
   );
 };

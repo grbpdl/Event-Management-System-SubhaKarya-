@@ -15,8 +15,10 @@ import facebook from "./facebook.svg";
 import linkedin from "./linkedin.svg";
 import close from "./close.svg";
 import menu from "./menu.svg";
+import qrcode from "./qrcode.jpg";
 
 export {
+  qrcode,
   venue,
   todolist,
   camera,

@@ -1,5 +1,7 @@
 const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
+const user = require("../models/user");
+
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
@@ -35,15 +37,15 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 
 // get Single Order
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
+
   const order = await Order.findById(req.params.id).populate(
     "user",
-    "name email"
+    "username email"
   );
 
   if (!order) {
     return next(new ErrorHander("Order not found with this Id", 404));
   }
-
   res.status(200).json({
     success: true,
     order,
@@ -53,7 +55,6 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 // get logged in user  Orders
 exports.myOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find({ user: req.user._id });
-
   res.status(200).json({
     success: true,
     orders,
@@ -122,7 +123,8 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHander("Order not found with this Id", 404));
   }
 
-  await order.remove();
+  await order.deleteOne();
+  ;
 
   res.status(200).json({
     success: true,

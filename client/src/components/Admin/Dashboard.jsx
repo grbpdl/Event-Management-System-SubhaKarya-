@@ -3,12 +3,13 @@ import Sidebar from "./Sidebar.jsx";
 import "./dashboard.css";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Doughnut, Line } from "react-chartjs-2";
+
 import { useSelector, useDispatch } from "react-redux";
 import { getAdminProduct } from "../../actions/productAction.js";
 import { getAllOrders } from "../../actions/orderAction.js";
 import { getAllUsers } from "../../actions/userAction.js";
 import MetaData from "../layout/MetaData.jsx";
+import Button from "../Button.jsx";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -40,28 +41,7 @@ const Dashboard = () => {
       totalAmount += item.totalPrice;
     });
 
-  const lineState = {
-    labels: ["Initial Amount", "Amount Earned"],
-    datasets: [
-      {
-        label: "TOTAL AMOUNT",
-        backgroundColor: ["tomato"],
-        hoverBackgroundColor: ["rgb(197, 72, 49)"],
-        data: [0, totalAmount],
-      },
-    ],
-  };
-
-  const doughnutState = {
-    labels: ["Out of Stock", "InStock"],
-    datasets: [
-      {
-        backgroundColor: ["#00A6B4", "#6800B4"],
-        hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [outOfStock, products.length - outOfStock],
-      },
-    ],
-  };
+ 
 
   return (
     <div className="dashboard">
@@ -69,12 +49,16 @@ const Dashboard = () => {
       <Sidebar />
 
       <div className="dashboardContainer">
-        <Typography component="h1">Dashboard</Typography>
-
+        <Typography  component="h1">Dashboard</Typography>
+        <div className="button">
+        <Button title="Logout"/>
+        </div>
+        
         <div className="dashboardSummary">
           <div>
-            <p>
-              Total Amount <br /> ₹{totalAmount}
+            <p >
+              Total Amount <br /> 
+              Rs.{totalAmount}
             </p>
           </div>
           <div className="dashboardSummaryBox2">
@@ -82,7 +66,7 @@ const Dashboard = () => {
               <p>Product</p>
               <p>{products && products.length}</p>
             </Link>
-            <Link to="/admin/orders">
+            <Link to="#">
               <p>Orders</p>
               <p>{orders && orders.length}</p>
             </Link>
@@ -93,13 +77,9 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="lineChart">
-          <Line data={lineState} />
-        </div>
+       
 
-        <div className="doughnutChart">
-          <Doughnut data={doughnutState} />
-        </div>
+        
       </div>
     </div>
   );

@@ -6,7 +6,9 @@ import { recoveryValidation } from '../helper/validate';
 import axios from '../api/axios';
 const UPDATE_URL = 'forgot/update';
 const RESET_URL = 'forgot/reset';
+import { useNavigate } from 'react-router-dom';
 export default function Recovery() {
+  const navigate = useNavigate();
   
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -64,6 +66,7 @@ export default function Recovery() {
         );
         if (response.status == 200)
           toast.success("PASSWORD CHANGED SUCESSFULLY")
+          navigate('/loginuser')
 
       } catch (err) {
 

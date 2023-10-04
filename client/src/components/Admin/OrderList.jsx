@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -15,8 +15,13 @@ import {
   clearErrors,
 } from "../../actions/orderAction";
 import { DELETE_ORDER_RESET } from "../../constants/orderConstants";
+import { useParams } from 'react-router-dom';
 
-const OrderList = ({ history }) => {
+
+const OrderList = () => {
+  const { id }= useParams();
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const alert = useAlert();
@@ -42,7 +47,7 @@ const OrderList = ({ history }) => {
 
     if (isDeleted) {
       alert.success("Order Deleted Successfully");
-      history.push("/admin/orders");
+      navigate("/admin/orders");
       dispatch({ type: DELETE_ORDER_RESET });
     }
 
@@ -57,7 +62,7 @@ const OrderList = ({ history }) => {
       headerName: "Status",
       minWidth: 150,
       flex: 0.5,
-      cellClassName: (params) => {
+      cellClassName: (id) => {
         return params.getValue(params.id, "status") === "Delivered"
           ? "greenColor"
           : "redColor";

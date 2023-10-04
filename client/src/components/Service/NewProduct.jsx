@@ -4,16 +4,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, createProduct } from "../../actions/productAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import DescriptionIcon from "@material-ui/icons/Description";
 import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import SideBar from "./Sidebar";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
+import SidebarService from "./SidebarService";
+import { useNavigate } from "react-router-dom";
 
-const NewProduct = ({ history }) => {
+const NewProduct = () => {
+  const navigate=useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -28,13 +29,13 @@ const NewProduct = ({ history }) => {
   const [imagesPreview, setImagesPreview] = useState([]);
 
   const categories = [
-    "Laptop",
-    "Footwear",
-    "Bottom",
-    "Tops",
-    "Attire",
-    "Camera",
-    "SmartPhones",
+    "Venues",
+  "Manpower",
+  "Photography",
+  "Priest",
+  "Catering Service",
+  "Puja Samagri",
+  "Others",
   ];
 
   useEffect(() => {
@@ -44,11 +45,11 @@ const NewProduct = ({ history }) => {
     }
 
     if (success) {
-      alert.success("Product Created Successfully");
-      history.push("/admin/dashboard");
+      alert.success(" Created Successfully");
+      navigate("/servicedashboard");
       dispatch({ type: NEW_PRODUCT_RESET });
     }
-  }, [dispatch, alert, error, history, success]);
+  }, [dispatch, alert, error, navigate, success]);
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
@@ -89,9 +90,9 @@ const NewProduct = ({ history }) => {
 
   return (
     <Fragment>
-      <MetaData title="Create Product" />
+   
       <div className="dashboard">
-        <SideBar />
+        <SidebarService />
         <div className="newProductContainer">
           <form
             className="createProductForm"

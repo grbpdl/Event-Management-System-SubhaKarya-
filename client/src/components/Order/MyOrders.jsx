@@ -7,14 +7,17 @@ import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
 import Typography from "@material-ui/core/Typography";
-import MetaData from "../layout/MetaData";
+
 import LaunchIcon from "@material-ui/icons/Launch";
+import store from "../../store";
+import { loadUser } from "../../actions/userAction";
+
 
 const MyOrders = () => {
   const dispatch = useDispatch();
 
   const alert = useAlert();
-
+ 
   const { loading, error, orders } = useSelector((state) => state.myOrders);
   const { user } = useSelector((state) => state.user);
 
@@ -79,15 +82,16 @@ const MyOrders = () => {
   useEffect(() => {
     if (error) {
       alert.error(error);
+      ;
       dispatch(clearErrors());
     }
-
+    store.dispatch(loadUser())
     dispatch(myOrders());
   }, [dispatch, alert, error]);
 
   return (
     <Fragment>
-      <MetaData title={`${user.name} - Orders`} />
+  
 
       {loading ? (
         <Loader />
@@ -102,7 +106,8 @@ const MyOrders = () => {
             autoHeight
           />
 
-          <Typography id="myOrdersHeading">{user.name}'s Orders</Typography>
+<Typography id="myOrdersHeading">{user?.username}'s Orders</Typography>
+
         </div>
       )}
     </Fragment>

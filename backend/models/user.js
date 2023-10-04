@@ -21,7 +21,13 @@ const userSchema = new Schema({
   role: {
     type: String,
     default:'user',
+    required: true,
   },
+  kycverified: {
+    type: Boolean,
+    default: false,
+  },
+  
 
 });
 

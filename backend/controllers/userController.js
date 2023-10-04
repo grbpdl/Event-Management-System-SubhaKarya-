@@ -1,6 +1,8 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
+
 
 
 
@@ -22,6 +24,7 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
 
 // Get User Detail
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+  
   const user = await User.findById(req.user.id);
 
   res.status(200).json({
@@ -72,7 +75,7 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   
-  await user.remove();
+  await user.deleteOne();
 
   res.status(200).json({
     success: true,
@@ -80,3 +83,4 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+//submitkyc

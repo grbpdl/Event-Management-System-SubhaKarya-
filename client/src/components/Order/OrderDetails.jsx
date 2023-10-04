@@ -7,8 +7,10 @@ import { Typography } from "@material-ui/core";
 import { getOrderDetails, clearErrors } from "../../actions/orderAction";
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert";
+import { useParams } from 'react-router-dom';
 
-const OrderDetails = ({ match }) => {
+const OrderDetails = () => {
+  const { id } = useParams();
   const { order, error, loading } = useSelector((state) => state.orderDetails);
 
   const dispatch = useDispatch();
@@ -20,8 +22,8 @@ const OrderDetails = ({ match }) => {
       dispatch(clearErrors());
     }
 
-    dispatch(getOrderDetails(match.params.id));
-  }, [dispatch, alert, error, match.params.id]);
+    dispatch(getOrderDetails(id));
+  }, [dispatch, alert, error, id]);
   return (
     <Fragment>
       {loading ? (
@@ -31,14 +33,14 @@ const OrderDetails = ({ match }) => {
           <MetaData title="Order Details" />
           <div className="orderDetailsPage">
             <div className="orderDetailsContainer">
-              <Typography component="h1">
+              <Typography className="text-white" component="h1">
                 Order #{order && order._id}
               </Typography>
-              <Typography>Shipping Info</Typography>
+              <Typography className="text-white" >Shipping Info</Typography>
               <div className="orderDetailsContainerBox">
                 <div>
                   <p>Name:</p>
-                  <span>{order.user && order.user.name}</span>
+                  <span>{order.user && order.user.username}</span>
                 </div>
                 <div>
                   <p>Phone:</p>
@@ -54,7 +56,7 @@ const OrderDetails = ({ match }) => {
                   </span>
                 </div>
               </div>
-              <Typography>Payment</Typography>
+              <Typography className="text-white" >Payment</Typography>
               <div className="orderDetailsContainerBox">
                 <div>
                   <p
@@ -78,7 +80,7 @@ const OrderDetails = ({ match }) => {
                 </div>
               </div>
 
-              <Typography>Order Status</Typography>
+              <Typography className="text-white" >Order Status</Typography>
               <div className="orderDetailsContainerBox">
                 <div>
                   <p
@@ -95,18 +97,18 @@ const OrderDetails = ({ match }) => {
             </div>
 
             <div className="orderDetailsCartItems">
-              <Typography>Order Items:</Typography>
+              <Typography className="text-white" >Order Items:</Typography>
               <div className="orderDetailsCartItemsContainer">
                 {order.orderItems &&
                   order.orderItems.map((item) => (
                     <div key={item.product}>
                       <img src={item.image} alt="Product" />
                       <Link to={`/product/${item.product}`}>
-                        {item.name}
+                        {item.username}
                       </Link>{" "}
                       <span>
-                        {item.quantity} X ₹{item.price} ={" "}
-                        <b>₹{item.price * item.quantity}</b>
+                        1 X Rs{item.price} ={" "}
+                        <b>Rs{item.price}</b>
                       </span>
                     </div>
                   ))}

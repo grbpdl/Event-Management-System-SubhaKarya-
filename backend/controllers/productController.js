@@ -6,41 +6,48 @@ const cloudinary = require("cloudinary");
 
 
 
+
 // Create Product -- Admin
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-  // let images = [];
+  
+  let images = [];
 
-  // if (typeof req.body.images === "string") {
-  //   images.push(req.body.images);
-  // } else {
-  //   images = req.body.images;
-  // }
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
 
-  // const imagesLinks = [];
+  const imagesLinks = [];
+  
+  
+  for (let i = 0; i < images.length; i++) {
+   
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: "products",
+    });
+ 
+    if(result.public_id && result.secure_url)
+    {
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+    
+  }
+  }
 
-  // for (let i = 0; i < images.length; i++) {
-  //   const result = await cloudinary.v2.uploader.upload(images[i], {
-  //     folder: "products",
-  //   });
+  req.body.images = imagesLinks;
 
-  //   imagesLinks.push({
-  //     public_id: result.public_id,
-  //     url: result.secure_url,
-  //   });
-  // }
-  // imagesLinks.push({
-  //       public_id: req.body.public_id,
-  //       url: req.body.url,
-  //     });
-  // req.body.images = imagesLinks;
-  // req.body.user = req.user.id;
+
 
   const product = await Product.create(req.body);
-
+  
   res.status(201).json({
     success: true,
     product,
   });
+ 
 });
 
 // Get All Product
@@ -155,11 +162,11 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Deleting Images From Cloudinary
-  for (let i = 0; i < product.images.length; i++) {
-    await cloudinary.v2.uploader.destroy(product.images[i].public_id);
-  }
+  // for (let i = 0; i < product.images.length; i++) {
+  //   await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+  // }
 
-  await product.remove();
+  await product.deleteOne();
 
   res.status(200).json({
     success: true,

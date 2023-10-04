@@ -9,7 +9,8 @@ import {getProduct,clearErrors} from '../../actions/productAction.js';
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert";
-
+import store from "../../store";
+import { loadUser } from "../../actions/userAction";
 
 
 
@@ -19,19 +20,27 @@ const UserDashboard = () => {
   const { loading, error, products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   useEffect(() => {
+
+    
+    
+   store.dispatch(loadUser());
+
+
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-    dispatch(getProduct());   
+    dispatch(getProduct());
+   
   }, [dispatch,error,alert]);
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
     <>
-    <div className="bg-primary w-full overflow-hidden text-white">
+    <div className="bg-primary w-full overflow-scroll text-white">
     <div className={`${styles.paddingX} ${styles.flexCenter} `}>
       <div className={`${styles.boxWidth}`}>
       <Navbar title="UserDashBoard" navLinks={usernavLinks} buttontitle="Logout"/>

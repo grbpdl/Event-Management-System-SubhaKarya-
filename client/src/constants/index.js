@@ -39,7 +39,7 @@ export const adminnavLinks = [
 ];
 export const usernavLinks = [
   {
-    id: "#home",
+    id: "/userdashboard",
     title: "Home",
   },
   {
@@ -53,6 +53,10 @@ export const usernavLinks = [
   {
     id: "/search",
     title: "Find Services",
+  },
+  {
+    id: "/cart",
+    title: "Cart",
   },
 ];
 

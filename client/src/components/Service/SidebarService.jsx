@@ -1,51 +1,50 @@
 import React from "react";
-import "./sidebar.css";
+import "./sidebarservice.css";
 import {sklogo} from "../../assets/index";
 import { Link } from "react-router-dom";
 import PostAddIcon from "@material-ui/icons/PostAdd";
-import ListAltIcon from "@material-ui/icons/ListAlt";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 
-const Sidebar = () => {
+const SidebarService = () => {
   return (
     <div className="sidebar">
       <Link to="/">
         <img src={sklogo} alt="Subhakarya" />
       </Link>
-      <Link to="/admindashboard">
+      <Link to="/servicedashboard">
         <p>
           <DashboardIcon /> Dashboard
         </p>
       </Link>
-      <Link to="/admin/products">
+      <Link to="/service/add">
         <p>
           <PostAddIcon /> 
-          Products
+          Add Service
         </p>
       </Link>
       
-      <Link to="/verifykyc">
+      <Link to="/submitkyc">
         <p>
           <VerifiedUserIcon />
-          Review Kyc
+          Verify Kyc
         </p>
       </Link>
-      <Link to="/admin/users">
+      <Link to="/service/orders">
         <p>
-          <PeopleIcon /> Users
+          <PeopleIcon /> Orders
         </p>
       </Link>
-      <Link to="/admin/reviews">
+      <Link to="/service/reviews">
         <p>
           <RateReviewIcon />
-          Reviews
+          See Reviews
         </p>
       </Link>
     </div>
   );
 };
 
-export default Sidebar;
+export default SidebarService;

@@ -1,6 +1,5 @@
 const sendEmail = require('../utils/email');
 const Token = require('../models/token');
-const Service = require('../models/service');
 const User=require('../models/user');
 const crypto = import('crypto');
 const bcrypt = require('bcryptjs');
@@ -9,7 +8,8 @@ const router = express.Router();
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const verify = require('../middleware/verifyToken');
-const { logout } = require('../controllers/userController');
+const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
+const { logout,getUserDetails,getAllUser,getSingleUser,deleteUser } = require('../controllers/userController');
 
 // const { session } = require('passport');
 
@@ -17,11 +17,7 @@ const { logout } = require('../controllers/userController');
 //register user
 router.post('/register', async (req, res) => {
   try {
-    const serviceData = await Service.findOne({ email: req.body.email });
     const userData = await User.findOne({ email: req.body.email });
-    if(serviceData){
-      return res.status(400).json({msg:'Service Provider with given email already exist!'});
-    }
     if (userData && userData.verified == true)
       return res.status(400).json({msg:'User with given email already exist!'});
 
@@ -38,6 +34,7 @@ router.post('/register', async (req, res) => {
       username:req.body.username,
       email: req.body.email,
       password: hashPassword,
+      role:req.body.role,
     }).save();
     
     let token = await new Token({
@@ -45,19 +42,25 @@ router.post('/register', async (req, res) => {
       token: (await crypto).randomBytes(32).toString('hex'),
       expireIn:new Date().getTime()+ 300*1000
     }).save();
-    await sendEmail(user.email, `<a href='${process.env.BASE_URL}/user/verify/${user.id}/${token.token}'>verify here</a>`);
-
+    
+    await sendEmail(req.body.email, `<a href='${process.env.BASE_URL}/user/verify/${user.id}/${token.token}'>verify here</a>`);
     res.status(200).json({msg:'An Email sent to your account please verify'});
+
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }
 });
 
+
+
 //verify user email
 router.get('/verify/:id/:token', async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
-    if (!user) return res.status(400).json({msg:'Invalid link'});
+
+
+    if (!user ) return res.status(400).json({msg:'Invalid link'});
+
 
     const token = await Token.findOne({
       userId: user._id,
@@ -77,7 +80,9 @@ router.get('/verify/:id/:token', async (req, res) => {
     await user.updateOne({ _id:user._id, verified:true });
     await Token.findByIdAndRemove(token._id);
     link='http://localhost:5173/loginuser'
-     res.status(200).json({msg:`email verified sucessfully go to login:${link}`});
+     res.status(200).json({msg:`email verified sucessfully proceed to login`});
+
+    
   } catch (error) {
   
     res.status(400).json({msg:'An error occured'});
@@ -88,20 +93,23 @@ router.get('/verify/:id/:token', async (req, res) => {
 router.post('/login', async (req, res) => {
     //checking email exists
     const user = await User.findOne({ email: req.body.email });
+    
 
     if (!user) return res.status(400).json({msg:' doesnot exist please sign in'});
-  
-    //check verified user or not
-    if (user && user.verified == false)
+  //if user logins
+    
+      //check verified user or not
+    if ((user && user.verified == false ))
       return res.status(400).json({msg:'verify before login!'});
   
     //password is correct
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).json({msg:'invalid email or password'});
-  
-    //sending token
+   
+    
+    // sending token
     const token=jwt.sign({ id: user._id }, process.env.TOKEN_SECRET);
-  // options for cookie
+  //options for cookie
   const options = {
     expires: new Date(
       Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
@@ -109,16 +117,31 @@ router.post('/login', async (req, res) => {
     httpOnly: true,
   };
 
-  res.status(201).cookie("token", token, options).json({
+  res.status(201).cookie("token",token, options).json({
     success: true,
     user,
     token,
   });
+
+
+
   });
 
+
+ 
 //logout user
 
 router.route("/logout").get(logout);
 
+router.route("/me").get( isAuthenticatedUser,getUserDetails);
+
+router
+  .route("/admin/users")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), getAllUser);
+
+router
+  .route("/admin/user/:id")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
 
 module.exports = router;
