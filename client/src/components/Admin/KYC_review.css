@@ -1,0 +1,16 @@
+
+.kycContainer {
+    border-left: 2px solid rgba(255,255,255, 0.13);
+    background-color: rgb(255,255,255);
+    padding: 3rem 0;
+  }
+  
+  
+  .kycContainer > h1 {
+    color: rgba(255,255,255);
+    font: 300 2rem "Roboto";
+    text-align: center;
+    width: 50%;
+    padding: 1.5rem;
+    margin: auto;
+  }

@@ -1,0 +1,98 @@
+
+   
+  .kyc-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+  }
+  
+  /* Form title styling */
+  .form-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font: 600 2.5vmax "poppins";
+  }
+  
+  /* Form styling */
+  .kyc-form {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+  }
+  
+  /* Form section styling */
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+  }
+  
+  /* Form section title styling */
+  .form-section h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  /* Form field styling */
+  .form-field {
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Label styling */
+  .form-field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+   
+  }
+  
+  /* Input field styling */
+  .form-field input[type="text"],
+  .form-field input[type="date"],
+  .form-field input[type="email"],
+  .form-field input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    \color:black;
+    background:black;
+  }
+  
+  /* Upload input field styling */
+  .form-field input[type="file"] {
+    border: none;
+    padding: 0;
+    border-radius: 3px;   
+  }
+  
+  /* Submit button styling */
+  .submit-button {
+    color: tomato;
+    border: 1px solid white;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    
+  }
+  
+  .submit-button:hover {
+    background:tomato;
+    color: white;
+     
+  }
+  

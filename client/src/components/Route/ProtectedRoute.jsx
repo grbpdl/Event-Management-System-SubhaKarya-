@@ -3,11 +3,13 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from '../../api/axios';
+import { useAlert } from 'react-alert'
 
 
 
 const ProtectedRoute = (props) => {
-  const { Component } = props;
+  const alert = useAlert()
+  const { Component,role } = props;
   const navigate = useNavigate(); // Rename Navigate to navigate
 
   const loginStatus = async () => {
@@ -18,8 +20,18 @@ const ProtectedRoute = (props) => {
       });
 
       if (response.data === false) {
+        alert.show("LOGIN TO ASCESS THIS RESOURCE")
         navigate("/loginuser");
       }
+
+        else if(role!=response.data)
+        {
+        alert.show(`you are not ${role}`)
+        navigate("/loginuser");
+        }
+    
+
+      
       // Add an else block if you want to navigate somewhere else when login is true
     } catch (error) {
       // Handle any errors that occur during the request
@@ -33,7 +45,10 @@ const ProtectedRoute = (props) => {
 
   return (
     <>
+   
       <Component />
+      
+   
     </>
   );
 };

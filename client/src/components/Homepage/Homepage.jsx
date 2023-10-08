@@ -15,14 +15,14 @@ const Homepage = () => (
     </div>
     <div className={`bg-primary ${styles.flexStart}`}>
       <div className={`${styles.boxWidth}`}>
-      <InfoSection />
+      <InfoSection  />
       </div>
     </div>
     <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
       <div className={`${styles.boxWidth}`}>
-      <Aboutus />
-        <Services/>
-        <Footer />
+      <Aboutus/>
+        <Services />
+        <Footer  />
       </div>
     </div>
 

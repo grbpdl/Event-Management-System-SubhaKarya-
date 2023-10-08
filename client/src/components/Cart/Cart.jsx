@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment ,useEffect} from "react";
 import "./Cart.css";
 import Navbar from '../Navbar.jsx'
 import { usernavLinks } from '../../constants/index.js';
@@ -9,20 +9,34 @@ import { Typography } from "@material-ui/core";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import store from "../../store";
+import { loadUser } from "../../actions/userAction";
+import { useAlert } from "react-alert";
 
 const Cart = () => {
+  const alert = useAlert();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
-
+  const { user } = useSelector((state) => state.user);
+  
 
   const deleteCartItems = (id) => {
     dispatch(removeItemsFromCart(id));
   };
 
   const checkoutHandler = () => {
+if (user.kycverified===true)
     navigate("/shipping");
-  };
+  
+  else
+  alert.show(`Kyc not verified`)
+};
+
+  useEffect(() => {
+   store.dispatch(loadUser());
+
+  },[]);
 
   return (
     <Fragment>
@@ -33,6 +47,7 @@ const Cart = () => {
 
           <Typography>Nothing in Your Cart</Typography>
           <Link to="/products">View Services</Link>
+          <Link to="/orders">View Orders</Link>
         </div>
         
       ) : (

@@ -26,6 +26,7 @@
   cursor: pointer;
   font: 400 1vmax "Roboto";
   text-decoration: none;
+  margin:5px;
 }
 
 .cartPage {

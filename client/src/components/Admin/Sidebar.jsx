@@ -27,7 +27,7 @@ const Sidebar = () => {
         </p>
       </Link>
       
-      <Link to="/verifykyc">
+      <Link to="/review/kyc">
         <p>
           <VerifiedUserIcon />
           Review Kyc

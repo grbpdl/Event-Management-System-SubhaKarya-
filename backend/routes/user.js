@@ -9,7 +9,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const verify = require('../middleware/verifyToken');
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
-const { logout,getUserDetails,getAllUser,getSingleUser,deleteUser } = require('../controllers/userController');
+const { logout,getUserDetails,getAllUser,getSingleUser,deleteUser ,updateTodo,deleteTodo,createKyc,getAllKyc,verifyKyc} = require('../controllers/userController');
 
 // const { session } = require('passport');
 
@@ -127,7 +127,9 @@ router.post('/login', async (req, res) => {
 
   });
 
-
+// //add into and delete todo list
+// router.route("/add/todo").put( isAuthenticatedUser,updateTodo);
+// router.route("/delete/todo").delete( isAuthenticatedUser,deleteTodo);
  
 //logout user
 
@@ -143,5 +145,21 @@ router
   .route("/admin/user/:id")
   .get(isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+
+  //create kyc
+  router
+  .route("/submit/kyc")
+  .post(isAuthenticatedUser,createKyc);
+
+  //get all kyc
+  router
+  .route("/allkyc")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), getAllKyc);
+  //verify kyc
+  router
+  .route("/verify/kyc")
+  .post(isAuthenticatedUser, authorizeRoles("admin"), verifyKyc);
+
+ 
 
 module.exports = router;

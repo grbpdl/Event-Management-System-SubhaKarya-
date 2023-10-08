@@ -5,17 +5,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(231, 231, 231);
+  background-color: rgb(0,0,0);
   position: fixed;
   top: 0%;
   left: 0;
+  background: linear-gradient(
+    144.39deg,
+    #ffffff -278.56%,
+    #6d6d6d -78.47%,
+    #11101d 91.61%
+  );
 }
 
 .searchBox > input[type="text"] {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.274);
+  box-shadow: 0 0 5px rgba(255,255,255, 0.274);
   background-color: white;
   border: none;
-  color: rgba(0, 0, 0, 0.637);
+  color: rgba(0,0,0, 0.637);
   padding: 1vmax 2vmax;
   width: 50%;
   outline: none;
@@ -34,7 +40,7 @@
   width: 10%;
   font: 300 1.1vmax "Roboto";
   cursor: pointer;
-  color: white;
+  color: black;
   transition: all 0.5s;
 }
 

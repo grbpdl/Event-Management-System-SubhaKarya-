@@ -21,6 +21,13 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { createOrder, clearErrors } from "../../actions/orderAction";
 
 const Payment = () => {
+
+  // useEffect(() => {
+  //   if (error) {
+  //     alert.error(error);
+  //     dispatch(clearErrors());
+  //   }
+  // }, [dispatch, error, alert]);
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,7 +36,7 @@ const Payment = () => {
   const payBtn = useRef(null);
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
-
+  const { error } = useSelector((state) => state.newOrder);
   
 
 
@@ -63,12 +70,12 @@ const Payment = () => {
       //   config
       // );
     order.paymentInfo = {
-      id:"user",
-      status:"paid",
+      id:user._id,
+      status:"succeeded",
     };
 
     dispatch(createOrder(order));
-
+    localStorage.removeItem('cartItems');
     navigate("/sucess");
   }
   catch (error) {

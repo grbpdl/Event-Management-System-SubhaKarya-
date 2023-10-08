@@ -17,8 +17,8 @@ import { loadUser } from "../../actions/userAction";
 const UserDashboard = () => {
   const alert = useAlert();
 
-  const { loading, error, products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
+  const { loading, error, products } = useSelector((state) => state.products);
   useEffect(() => {
 
     

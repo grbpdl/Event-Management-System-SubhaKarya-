@@ -8,6 +8,10 @@ import { getOrderDetails, clearErrors } from "../../actions/orderAction";
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert";
 import { useParams } from 'react-router-dom';
+import Navbar from '../Navbar.jsx'
+import { usernavLinks } from '../../constants/index.js';
+import styles from "../../style.js";
+
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -31,6 +35,13 @@ const OrderDetails = () => {
       ) : (
         <Fragment>
           <MetaData title="Order Details" />
+          <div className="bg-primary w-full overflow-hidden text-white">
+    <div className={`${styles.paddingX} ${styles.flexCenter} `}>
+      <div className={`${styles.boxWidth}`}>
+      <Navbar title="UserDashBoard" navLinks={usernavLinks} buttontitle="Logout"/>
+      </div>
+      </div>
+      </div>
           <div className="orderDetailsPage">
             <div className="orderDetailsContainer">
               <Typography className="text-white" component="h1">

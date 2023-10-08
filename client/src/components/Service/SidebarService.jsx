@@ -26,7 +26,7 @@ const SidebarService = () => {
         </p>
       </Link>
       
-      <Link to="/submitkyc">
+      <Link to="/verifykyc">
         <p>
           <VerifiedUserIcon />
           Verify Kyc
@@ -37,12 +37,12 @@ const SidebarService = () => {
           <PeopleIcon /> Orders
         </p>
       </Link>
-      <Link to="/service/reviews">
+      {/* <Link to="/service/reviews">
         <p>
           <RateReviewIcon />
           See Reviews
         </p>
-      </Link>
+      </Link> */}
     </div>
   );
 };

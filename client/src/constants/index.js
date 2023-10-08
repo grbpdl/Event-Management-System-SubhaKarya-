@@ -51,13 +51,18 @@ export const usernavLinks = [
     title: "Verify Kyc",
   },
   {
-    id: "/search",
-    title: "Find Services",
+    id: "/todolist",
+    title: "Todo Lsit",
   },
   {
     id: "/cart",
     title: "Cart",
   },
+  {
+    id: "/search",
+    title: "Search",
+  },
+  
 ];
 
 export const features = [

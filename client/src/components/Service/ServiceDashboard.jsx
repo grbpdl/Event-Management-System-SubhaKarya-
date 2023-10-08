@@ -39,7 +39,7 @@ const ServiceDashboard = () => {
               <p>Orders</p>
               <p>Request</p>
             </Link>
-            <Link to="/service/reviews">
+            <Link to="#">
               <p>Reviews</p>
               <p>Comment</p>
             </Link>

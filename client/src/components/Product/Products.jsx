@@ -35,6 +35,8 @@ const Products = () => {
 
   const [ratings, setRatings] = useState(0);
 
+  
+
   const {
     products,
     loading,
@@ -72,8 +74,10 @@ const Products = () => {
         <Fragment>
            <div className="bg-primary w-full  overflow-scroll text-white">{/* used h-screen to make it fully black */}
            <Navbar title="" navLinks={usernavLinks} buttontitle="Logout"/>
+           
+           
           <h2 className="productsHeading">Services</h2>
-
+          
           <div className="products">
             {products &&
               products.map((product) => (

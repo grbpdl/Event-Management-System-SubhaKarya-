@@ -12,6 +12,9 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
 import SidebarService from "./SidebarService";
 import { useNavigate } from "react-router-dom";
+import store from "../../store";
+import { loadUser } from "../../actions/userAction";
+
 
 const NewProduct = () => {
   const navigate=useNavigate();
@@ -37,8 +40,10 @@ const NewProduct = () => {
   "Puja Samagri",
   "Others",
   ];
-
+  const { user } = useSelector((state) => state.user);
   useEffect(() => {
+    store.dispatch(loadUser());
+
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
@@ -52,6 +57,8 @@ const NewProduct = () => {
   }, [dispatch, alert, error, navigate, success]);
 
   const createProductSubmitHandler = (e) => {
+    if (user.kycverified===true)
+   {
     e.preventDefault();
 
     const myForm = new FormData();
@@ -66,6 +73,9 @@ const NewProduct = () => {
       myForm.append("images", image);
     });
     dispatch(createProduct(myForm));
+  }
+  else
+  alert.show(`Kyc not verified`)
   };
 
   const createProductImagesChange = (e) => {
